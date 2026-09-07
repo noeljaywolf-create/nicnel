@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data: https:; font-src 'self' data: https://cdnjs.cloudflare.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-src https://calendly.com; form-action 'self'">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex,nofollow">
     <title>Stock Manager | Nicnel Plant & Equipment</title>
@@ -23,6 +24,7 @@
                 <p class="form-sub">Enter the admin password to edit the site's equipment stock.</p>
                 <div class="form-row">
                     <input type="password" id="adminPass" placeholder="Admin password" autocomplete="current-password">
+                    <p class="admin-login-error" id="loginError" style="display:none"></p>
                 </div>
                 <button class="btn btn--primary btn--full" id="loginBtn" type="button"><i class="fas fa-lock-open"></i> Sign In</button>
             </div>

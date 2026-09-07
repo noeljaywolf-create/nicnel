@@ -109,8 +109,22 @@ window.NICNEL_STOCK = [
 
     function assetPath(src) {
         if (!src) return '';
+        // only allow relative site assets or http(s) images - never executable schemes
+        if (/^(javascript:|data:text\/html|vbscript:)/i.test(src)) return '';
         if (/^(https?:)?\/\//.test(src)) return src;
+        // reject anything that isn't a plain relative path
+        if (!/^[\w.\-\/]+$/.test(src)) return '';
         return src;
+    }
+
+    /* Escape untrusted text before inserting into rendered HTML. */
+    function escapeHTML(value) {
+        return String(value == null ? '' : value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
     }
 
     /* Edits made in admin.html live in this browser's localStorage.
@@ -175,20 +189,26 @@ window.NICNEL_STOCK = [
 
     function cardHTML(item) {
         var icon = categoryIcon(item.category);
-        var media = item.image
+        var safeModel = escapeHTML(item.model);
+        var safeCategory = escapeHTML(item.category);
+        var safeSpec = escapeHTML(item.spec);
+        var safeNote = escapeHTML(item.note);
+        var safeAlt = escapeHTML(item.alt || item.model);
+        var src = assetPath(item.image);
+        var media = src
             ? '<div class="equipment-card__media" style="background-image:linear-gradient(rgba(0,44,95,0.30),rgba(0,44,95,0.55)),url(\''
-                + assetPath(item.image) + '\');" role="img" aria-label="' + (item.alt || item.model) + '"></div>'
+                + src + '\');" role="img" aria-label="' + safeAlt + '"></div>'
             : '<div class="equipment-card__media equipment-card__media--icon"><i class="fas ' + icon + '"></i></div>';
 
         return '<article class="equipment-card reveal">'
             + media
             + '<div class="equipment-card__body">'
-            + '<span class="equip-badge equip-badge--' + item.status + '">'
+            + '<span class="equip-badge equip-badge--' + escapeHTML(item.status) + '">'
             + '<i class="fas fa-circle"></i> ' + statusLabel(item.status) + '</span>'
-            + '<h3>' + item.model + '</h3>'
-            + '<p class="equipment-card__cat">' + item.category + '</p>'
-            + '<p class="equipment-card__spec">' + item.spec + '</p>'
-            + (item.note ? '<p class="equipment-card__note">' + item.note + '</p>' : '')
+            + '<h3>' + safeModel + '</h3>'
+            + '<p class="equipment-card__cat">' + safeCategory + '</p>'
+            + '<p class="equipment-card__spec">' + safeSpec + '</p>'
+            + (safeNote ? '<p class="equipment-card__note">' + safeNote + '</p>' : '')
             + '<div class="equipment-card__actions">'
             + '<a class="btn btn--primary btn--full" href="' + quoteHref(item) + '" target="_blank" rel="noopener">'
             + '<i class="fab fa-whatsapp"></i> Request Price</a>'

@@ -2437,6 +2437,17 @@ body.page-admin {
     display: block;
 }
 
+.admin-login-error {
+    margin-top: 0.6rem;
+    font-size: 0.82rem;
+    color: #dc2626;
+    background: rgba(220, 38, 38, 0.08);
+    border: 1px solid rgba(220, 38, 38, 0.25);
+    border-radius: var(--radius-sm);
+    padding: 0.55rem 0.8rem;
+    text-align: left;
+}
+
 @media (max-width: 480px) {
     .form-row--pair { grid-template-columns: 1fr; }
     .nb-modal { padding: 1.5rem; }

@@ -867,6 +867,13 @@ input, textarea, select { font-family: inherit; }
     margin: 0 auto;
 }
 
+.cta__actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+}
+
 .cta h2 {
     font-family: var(--font-display);
     font-size: clamp(2rem, 5vw, 3rem);
@@ -1917,6 +1924,10 @@ body.page-portfolio .page-hero::before {
     100% { box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4), 0 0 0 0 rgba(37, 211, 102, 0); }
 }
 
+@media (max-width: 768px) {
+    .whatsapp-float { display: none; }
+}
+
 /* Hyundai trusts bar - subtle sky accent */
 .trust-bar__item:hover i {
     background: var(--hyundai-sky-soft);
@@ -2285,4 +2296,149 @@ body.page-admin {
 @media (max-width: 640px) {
     .admin-shell { padding: 2.5rem 1rem; }
     .admin-table { min-width: 600px; }
+}
+
+/* ===== BOOKING MODAL ===== */
+.nb-bar {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 16px;
+    z-index: 1001;
+    display: flex;
+    gap: 0.4rem;
+    background: var(--charcoal, #16181e);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    padding: 0.45rem;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.4);
+}
+
+@media (min-width: 769px) {
+    .nb-bar { display: none !important; }
+}
+
+.nb-bar__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--white);
+    font-family: var(--font-display, 'Oswald', sans-serif);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.55rem 0.9rem;
+    border-radius: 999px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: background var(--speed, 0.25s) var(--ease, ease);
+}
+
+.nb-bar__btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--orange);
+}
+
+.nb-bar__cta {
+    background: var(--orange, #F97316);
+    color: #fff;
+}
+
+.nb-bar__cta:hover {
+    background: var(--orange);
+    color: #fff;
+}
+
+/* overlay + modal */
+.nb-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1002;
+    background: rgba(15, 23, 42, 0.62);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 5vh 1rem 3rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    overflow-y: auto;
+}
+
+.nb-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.nb-modal {
+    position: relative;
+    background: var(--white);
+    border-radius: var(--radius-lg, 1rem);
+    max-width: 560px;
+    width: 100%;
+    padding: 2.25rem;
+    box-shadow: 0 24px 64px rgba(15, 23, 42, 0.3);
+    transform: translateY(16px);
+    transition: transform 0.3s ease;
+}
+
+.nb-overlay.is-open .nb-modal {
+    transform: translateY(0);
+}
+
+.nb-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: var(--steel-light, #f1f5f9);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all var(--speed, 0.25s) var(--ease, ease);
+}
+
+.nb-close:hover {
+    background: rgba(220, 38, 38, 0.1);
+    color: #dc2626;
+}
+
+.nb-modal__head {
+    margin-bottom: 1.5rem;
+}
+
+.nb-modal__head h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    color: var(--charcoal);
+}
+
+.nb-modal__head p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 0.35rem;
+}
+
+.form-row--pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+}
+
+.form-row--pair label {
+    display: block;
+}
+
+@media (max-width: 480px) {
+    .form-row--pair { grid-template-columns: 1fr; }
+    .nb-modal { padding: 1.5rem; }
+    .nb-bar { width: calc(100% - 2rem); justify-content: space-between; }
 }

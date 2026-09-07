@@ -6,6 +6,12 @@
 
 window.NICNEL = window.NICNEL || {};
 
+/* CALENDLY (LIVE CALENDAR BOOKING) — optional.
+   When Nicnel creates a Calendly account, paste the booking URL
+   here and the "Choose your slot" button appears in the booking
+   form. Leave as '' to hide it. */
+window.NICNEL_BOOKING_URL = '';
+
 /* Default fleet shown on the public site.
    status: 'available' | 'coming' | 'order'                       */
 window.NICNEL_STOCK = [
@@ -133,6 +139,20 @@ window.NICNEL_STOCK = [
         }[status] || 'Available Now';
     }
 
+    /* Unique machine models for dropdowns (quote / booking forms). */
+    function machineOptions() {
+        var seen = {};
+        var out = [];
+        getStock().forEach(function (item) {
+            var key = item.model + ' | ' + item.category;
+            if (!seen[key]) {
+                seen[key] = true;
+                out.push(key);
+            }
+        });
+        return out;
+    }
+
     function categoryIcon(category) {
         var c = String(category || '').toLowerCase();
         if (c.indexOf('excavator') > -1) return 'fa-excavator';
@@ -240,6 +260,7 @@ window.NICNEL_STOCK = [
         setStock: setStock,
         resetStock: resetStock,
         statusLabel: statusLabel,
+        machineOptions: machineOptions,
         quoteHref: quoteHref,
         renderGrid: renderGrid,
         initEquipment: initEquipment

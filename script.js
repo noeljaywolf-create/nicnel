@@ -36,26 +36,39 @@
     }
 
     /* ===== SCROLL REVEAL ANIMATIONS ===== */
-    const revealElements = document.querySelectorAll('.reveal');
+    let revealObserver = null;
 
-    if (revealElements.length && 'IntersectionObserver' in window) {
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                    revealObserver.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.12,
-            rootMargin: '0px 0px -40px 0px'
-        });
+    function setupReveal() {
+        const revealElements = document.querySelectorAll('.reveal');
 
-        revealElements.forEach(el => revealObserver.observe(el));
-    } else {
-        // Fallback: show everything
-        revealElements.forEach(el => el.classList.add('in-view'));
+        if (revealElements.length) {
+            if (revealObserver) revealObserver.disconnect();
+
+            if ('IntersectionObserver' in window) {
+                revealObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('in-view');
+                            revealObserver.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    threshold: 0.12,
+                    rootMargin: '0px 0px -40px 0px'
+                });
+
+                revealElements.forEach(el => revealObserver.observe(el));
+            } else {
+                // Fallback: show everything
+                revealElements.forEach(el => el.classList.add('in-view'));
+            }
+        }
     }
+
+    setupReveal();
+
+    // Exposed so freshly-rendered cards (e.g. equipment page) can animate too
+    window.NICNEL_REVEAL = setupReveal;
 
     /* ===== COUNT-UP STATS ===== */
     function animateCount(el) {
@@ -129,6 +142,8 @@
 
     /* ===== CONTACT FORM ===== */
     const contactForm = document.getElementById('contactForm');
+    const WHATSAPP_NUMBER = (window.NICNEL && window.NICNEL.WHATSAPP) || '263772335063';
+
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -141,12 +156,34 @@
                 return;
             }
 
+            const phone = (document.getElementById('phone') || {}).value?.trim() || '';
+            const interestEl = document.getElementById('interest');
+            const interest = interestEl ? interestEl.options[interestEl.selectedIndex]?.text || '' : '';
+            const message = (document.getElementById('message') || {}).value.trim() || '';
+
+            const lines = [
+                'New enquiry from the Nicnel website:',
+                '',
+                'Name: ' + name,
+                'Email: ' + email,
+                'Phone: ' + (phone || 'Not provided'),
+                'Interested in: ' + (interest || 'General enquiry')
+            ];
+            if (message) lines.push('Message: ' + message);
+            lines.push('', 'Please respond with pricing / details. Thank you.');
+
+            const body = lines.join('\n');
+            const waURL = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(body);
+
             const button = contactForm.querySelector('button[type="submit"]');
             const originalHTML = button.innerHTML;
 
-            button.innerHTML = '<i class="fas fa-check"></i> Enquiry Sent!';
-            button.style.background = '#22C55E';
-            button.style.boxShadow = '0 8px 24px rgba(34, 197, 94, 0.35)';
+            // open WhatsApp to send the enquiry straight to Nicnel
+            window.open(waURL, '_blank', 'noopener');
+
+            button.innerHTML = '<i class="fab fa-whatsapp"></i> Opening WhatsApp…';
+            button.style.background = '#25D366';
+            button.style.boxShadow = '0 8px 24px rgba(37, 211, 102, 0.35)';
 
             setTimeout(() => {
                 contactForm.reset();

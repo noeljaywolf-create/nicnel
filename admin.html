@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Stock Manager | Nicnel Plant & Equipment</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="page-admin">
+
+    <div class="admin-shell">
+
+        <!-- ===== LOGIN ===== -->
+        <div id="loginScreen">
+            <div class="login-card">
+                <span class="logo-mark"><i class="fas fa-helmet-safety"></i></span>
+                <h1>Stock Manager</h1>
+                <p class="form-sub">Enter the admin password to edit the site's equipment stock.</p>
+                <div class="form-row">
+                    <input type="password" id="adminPass" placeholder="Admin password" autocomplete="current-password">
+                </div>
+                <button class="btn btn--primary btn--full" id="loginBtn" type="button"><i class="fas fa-lock-open"></i> Sign In</button>
+            </div>
+        </div>
+
+        <!-- ===== EDITOR ===== -->
+        <div id="editorScreen">
+            <div class="admin-toolbar">
+                <h1><i class="fas fa-truck"></i> Equipment Stock Editor</h1>
+                <div class="actions">
+                    <button class="btn btn--outline" type="button" id="addBtn"><i class="fas fa-plus"></i> Add Machine</button>
+                    <button class="btn btn--primary" type="button" id="saveBtn"><i class="fas fa-save"></i> Save Changes</button>
+                    <button class="btn btn--outline" type="button" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </div>
+            </div>
+
+            <p class="admin-hint">
+                <i class="fas fa-info-circle"></i> Changes are saved to this browser and shown on the public
+                <strong>Equipment</strong> page. Because the site runs on free, static hosting (no server/database),
+                edits live on the computer/browser where they're made. To update stock everywhere, repeat the edits here
+                on each device, or send the list to your developer to publish permanently.
+            </p>
+
+            <div class="admin-table-wrap">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Model</th>
+                            <th>Specification</th>
+                            <th>Photo</th>
+                            <th>Note</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="rows"></tbody>
+                </table>
+            </div>
+
+            <div class="admin-bottom">
+                <button class="btn btn--primary" type="button" id="saveBtn2"><i class="fas fa-save"></i> Save Changes</button>
+                <span class="form-sub">Saving updates the public Equipment page in this browser.</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="stock.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

@@ -5,6 +5,9 @@ authorized **HD Hyundai** dealer since 1999. Live on GitHub Pages.
 
 ## The Problem This Site Solves
 
+> Full specification, goals, scope and success criteria: see
+> **[PROBLEM.md](PROBLEM.md)**.
+
 Nicnel sells and hires heavy earthmoving equipment across Zimbabwe and the wider
 SADC region, but the company had **no web presence** that:
 
